@@ -1,0 +1,2 @@
+# Pingas
+Uptime/Downtime stats
