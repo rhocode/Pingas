@@ -64,7 +64,7 @@ function App() {
   const getName = (index: number) => {
     if (index === 0) return "Now";
     else {
-      return index % 4 === 0 ? -index + " hours" : ""
+      return index % 4 === 0 ? index + " hours" : ""
     }
   }
   const data = Object.keys(state.data).map(item => {
