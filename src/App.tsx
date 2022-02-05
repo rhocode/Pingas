@@ -24,16 +24,16 @@ function App() {
   React.useEffect(() => {
     const interval = setInterval(async () => {
       const newState = await updateState(state);
-      setState(newState);
+      setState(newState as any);
     }, 1000);
     return () => clearInterval(interval);
   }, [state]);
 
   let i = -23;
-  const data = Object.keys(state).map(item => {
+  const data = Object.keys(state.data).map(item => {
     return {
       name: i++,
-      ...state[item]
+      ...state.data[item]
     }
   })
 

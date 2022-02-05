@@ -35,33 +35,38 @@ export const createInitialState = () => {
         };
     }
 
-    return stateMap;
+    return {
+        data: stateMap,
+        signals: []
+    };
 }
 
-export const updateState = async (state: Record<string, any>) => {
+export const updateState = async (state: any) => {
     const pingValue = await ping();
 
-    return produce(state, (draftState) => {
+    return produce(state, (draftState: any) => {
         const key = createDateStr(new Date())
 
-        if (!draftState[key]) {
-            draftState[key] = {
+        if (!draftState.data[key]) {
+            draftState.data[key] = {
                 success: 0,
-                failure: 0,
-                signals: []
+                failure: 0
             }
             const oldDate = new Date();
             oldDate.setHours(oldDate.getHours() - 24);
-            delete draftState[createDateStr(oldDate)]
+            delete draftState.data[createDateStr(oldDate)]
         }
 
-        const obj = draftState[key];
+        const obj = draftState.data[key];
 
         if (pingValue >= 0) {
             obj.success++;
         } else {
             obj.failure++;
         }
-        obj.signals.push(pingValue >= 0 ? pingValue : -1)
+        draftState.signals.push(pingValue >= 0 ? pingValue : -1)
+        while (draftState.signals.length > 120) {
+            draftState.signals.shift();
+        }
     })
 }
