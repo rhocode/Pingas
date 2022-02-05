@@ -7,11 +7,10 @@ const ping = async () => {
     // 2 second timeout:
     const timeoutId = setTimeout(() => controller.abort(), 1000)
     const start = new Date().getTime();
-    await fetch(host, { mode: "no-cors", signal: controller.signal });
+    const response = await fetch(host, { mode: "no-cors", signal: controller.signal }).catch(() => false);
     const end = new Date().getTime() - start;
     clearTimeout(timeoutId);
-    // TODO: find better way
-    if (end < 2000) {
+    if (response) {
         console.log("Pinged with ping", end);
         return end;
     } else {
@@ -50,7 +49,7 @@ interface HourBucket {
     failure: number;
 }
 
-interface TimeData {
+export interface TimeData {
     data: Record<string, HourBucket>;
     signals: number[];
 }
