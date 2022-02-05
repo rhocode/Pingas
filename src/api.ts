@@ -7,7 +7,7 @@ const ping = async () => {
     // 2 second timeout:
     const timeoutId = setTimeout(() => controller.abort(), 1000)
     const start = new Date().getTime();
-    const res = await fetch(host, { mode: "no-cors", signal: controller.signal });
+    await fetch(host, { mode: "no-cors", signal: controller.signal });
     const end = new Date().getTime() - start;
     clearTimeout(timeoutId);
     // TODO: find better way

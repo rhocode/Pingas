@@ -18,8 +18,6 @@ function App() {
 
   let i = -23;
   const data = Object.keys(state).map(item => {
-    const hour = item.split("-")
-
     return {
       name: i++,
       ...state[item]
