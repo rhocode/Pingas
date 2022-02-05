@@ -1,18 +1,21 @@
 import produce from "immer";
 
 const ping = async () => {
-    const host = "https://1.1.1.1/"
+    const host = "https://1.1.1.1"
     const controller = new AbortController()
 
     // 2 second timeout:
-    const timeoutId = setTimeout(() => controller.abort(), 2000)
+    const timeoutId = setTimeout(() => controller.abort(), 1000)
     const start = new Date().getTime();
-    const res = await fetch(host, { signal: controller.signal });
+    const res = await fetch(host, { mode: "no-cors", signal: controller.signal });
     const end = new Date().getTime() - start;
     clearTimeout(timeoutId);
-    if (res.ok) {
+    // TODO: find better way
+    if (end < 2000) {
+        console.log("Pinged with ping", end);
         return end;
     } else {
+        console.log("Pinged failed");
         return -1
     }
 }
