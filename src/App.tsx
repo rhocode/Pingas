@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { createInitialState, updateState } from "./api";
 
 type StatProps = {
@@ -46,18 +46,18 @@ function App() {
           <StatPanel title={"Last Duration"} value={"10"} />
           <StatPanel title={"Last 24"} value={"10"} />
         </div>
-        <LineChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-          <Line type="monotone" dataKey="success" stroke="#00ff00" />
+        <BarChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+          <Bar dataKey="success" fill="#00ff00" />
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="name" />
           <YAxis dataKey="success" />
-        </LineChart>
-        <LineChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-          <Line type="monotone" dataKey="failure" stroke="#ff0000" />
+        </BarChart>
+        <BarChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+          <Bar dataKey="failure" fill="#ff0000" />
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="name" />
           <YAxis dataKey="failure" />
-        </LineChart>
+        </BarChart>
       </header>
     </div>
   );
