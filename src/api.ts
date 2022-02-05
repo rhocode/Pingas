@@ -41,7 +41,17 @@ export const createInitialState = () => {
     };
 }
 
-export const updateState = async (state: any) => {
+interface HourBucket {
+    success: number;
+    failure: number;
+}
+
+interface TimeData {
+    data: Record<string, HourBucket>;
+    signals: number[];
+}
+
+export const updateState = async (state: TimeData): Promise<TimeData> => {
     const pingValue = await ping();
 
     return produce(state, (draftState: any) => {
