@@ -35,9 +35,13 @@ export const createInitialState = () => {
         };
     }
 
+    const signals = [];
+    for (let i = 0; i < 120; i++) {
+        signals.push(0);
+    }
     return {
         data: stateMap,
-        signals: []
+        signals: signals
     };
 }
 

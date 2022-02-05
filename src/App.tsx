@@ -37,14 +37,17 @@ function App() {
     }
   })
 
+  const lastFiveDropped = state.signals.slice(115).reduce((prev, cur) => prev + (cur < 0 ? 1 : 0) , 0);
+  const lastDropped = state.signals.reduce((prev, cur) => prev + (cur < 0 ? 1 : 0) , 0);
+  const avg = Math.round(state.signals.slice(110).reduce((prev, cur) => prev + cur , 0) / 10);
   return (
     <div className="App">
       <header className="App-header">
         <div className="stats">
-          <StatPanel title={"Dropped 5s"} value={"1000"} />
-          <StatPanel title={"Dropped Hour"} value={"1000"} />
-          <StatPanel title={"Last Duration"} value={"10"} />
-          <StatPanel title={"Last 24"} value={"10"} />
+          <StatPanel title={"Dropped 5s"} value={`${lastFiveDropped}`} />
+          <StatPanel title={"Dropped 120s"} value={`${lastDropped}`} />
+          <StatPanel title={"Last Ping"} value={`${state.signals[119]}`} />
+          <StatPanel title={"Avg"} value={`${avg}`} />
         </div>
         <LineChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
           <Line type="monotone" dataKey="success" stroke="#00ff00" />
