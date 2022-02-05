@@ -1,5 +1,5 @@
 
 
-const ping = () => {
-
+export const ping = () => {
+    return []
 }
