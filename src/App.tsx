@@ -47,7 +47,7 @@ function App() {
           <StatPanel title={"Dropped 5s"} value={`${lastFiveDropped}`} />
           <StatPanel title={"Dropped 120s"} value={`${lastDropped}`} />
           <StatPanel title={"Last Ping"} value={`${state.signals[119]}`} />
-          <StatPanel title={"Avg"} value={`${avg}`} />
+          <StatPanel title={"Avg Ping"} value={`${avg}`} />
         </div>
         <BarChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
           <Bar dataKey="success" fill="#00ff00" />
