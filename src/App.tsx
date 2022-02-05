@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, CartesianGrid, Legend, XAxis, YAxis, LabelList } from 'recharts';
 import { createInitialState, updateState } from "./api";
 
 type StatProps = {
@@ -37,9 +37,30 @@ function App() {
     }
   })
 
-  const lastFiveDropped = state.signals.slice(115).reduce((prev, cur) => prev + (cur < 0 ? 1 : 0) , 0);
-  const lastDropped = state.signals.reduce((prev, cur) => prev + (cur < 0 ? 1 : 0) , 0);
-  const avg = Math.round(state.signals.slice(110).reduce((prev, cur) => prev + cur , 0) / 10);
+  type LabelProps = {
+    x: number,
+    y: number,
+    height: number,
+    value: string
+  }
+
+  const renderCustomizedLabel = (props: any) => {
+    const { x, y, width, height, value } = props;
+    const radius = 10;
+
+    return (
+      <g>
+        {/* <circle cx={x + width / 2} cy={y - radius} r={radius} fill="#aaa" /> */}
+        <text x={x + width / 2} y={y - radius / 2} fill="#fff" textAnchor="middle" dominantBaseline="middle">
+          {value}
+        </text>
+      </g>
+    );
+  };
+
+  const lastFiveDropped = state.signals.slice(115).reduce((prev, cur) => prev + (cur < 0 ? 1 : 0), 0);
+  const lastDropped = state.signals.reduce((prev, cur) => prev + (cur < 0 ? 1 : 0), 0);
+  const avg = Math.round(state.signals.slice(110).reduce((prev, cur) => prev + cur, 0) / 10);
   return (
     <div className="App">
       <header className="App-header">
@@ -49,17 +70,19 @@ function App() {
           <StatPanel title={"Last Ping"} value={`${state.signals[119]}`} />
           <StatPanel title={"Avg Ping"} value={`${avg}`} />
         </div>
-        <BarChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-          <Bar dataKey="success" fill="#00ff00" />
+        <BarChart width={1000} height={300} data={data} margin={{ top: 10, right: 0, bottom: 5, left: 0 }}>
+          <Bar dataKey="success" fill="#00ff00" minPointSize={1}>
+            <LabelList dataKey="success" content={renderCustomizedLabel} />
+          </Bar>
           <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="name" />
-          <YAxis dataKey="success" />
+          <Legend />
         </BarChart>
-        <BarChart width={1000} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-          <Bar dataKey="failure" fill="#ff0000" />
+        <BarChart width={1000} height={300} data={data} margin={{ top: 5, right: 0, bottom: 5, left: 0 }}>
+          <Bar dataKey="failure" fill="#ff0000" minPointSize={1}>
+            <LabelList dataKey="failure" content={renderCustomizedLabel} />
+          </Bar>
           <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="name" />
-          <YAxis dataKey="failure" />
+          <Legend />
         </BarChart>
       </header>
     </div>
